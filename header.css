@@ -1,0 +1,49 @@
+.home{
+    float: left; 
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color:#ffffff;
+  }
+
+  .search{
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
+    float:right;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color:#ffffff;
+  }
+
+  .searchButton{
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
+    float:right;
+    align-self: center;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    background-color: #08415c;
+    color:#ffffff;
+  }
+
+  .upload{
+    float: right; 
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color:#ffffff;
+  }
+
+  .App-header {
+    align-items: center;
+    justify-content: center;
+    min-height: 20px;
+    font-size: calc(10px + 2vmin);
+    color: #ffffff;
+  }

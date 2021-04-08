@@ -1,0 +1,152 @@
+.App {
+    text-align: center;
+    background-image: radial-gradient( #388697, #08415C);
+    min-height: 100vh;
+    min-width: 100vh;
+    color: #FFFFFF;
+    align-content: center;
+  }
+  
+  .App-logo {
+    height: 10vmin;
+    pointer-events: none;
+  }
+  .Event-logo {
+    height: 20vmin;
+    pointer-events: none;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  .Complete-logo {
+    height: 25vmin;
+    display:block;
+    padding-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    pointer-events: none;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  
+  .col {
+    float: left;
+    width: 33%;
+  }
+  
+  .media {
+    width: 90%;
+    background-color:#fffffff3;
+    color: #08415C;
+    margin:auto;
+    display: table;
+    border-radius: 5px;
+    margin-top: 15px;
+    min-height: 10vh;
+    padding-bottom: 2%;
+  }
+
+  .mediaText {
+    top: 50%;
+    margin: auto;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  .rectangle {
+    display: inline-flex;
+    width: 100px;
+    height: 100px;
+    background: rgb(255, 255, 255);
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  h1 {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        font-style: normal;
+        font-weight: bold;
+  }
+  
+  .fake-link {
+    cursor: pointer;
+  }
+    
+  .counterNumber {
+    padding-top: 5%;
+    float: center;
+    text-align: center;
+    font-size: 7vw;
+    color: #FFFFFF;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        font-style: normal;
+        font-weight: bold;
+  }
+  
+  .root {
+    width: 80%;
+    align-self:  center;
+    justify-content:  center;
+    margin: auto;
+
+    margin-bottom: 20px;
+    margin-top: 10px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    vertical-align: middle;
+    align-self: auto;
+    border-radius: 10px;
+    border-style: solid;
+    
+  }
+
+  .root2 {
+    width: 90%;
+    align-self:  center;
+    justify-content:  center;
+    margin: auto;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    vertical-align: middle;
+    align-self: auto;
+  
+  }
+
+  .baseroot{
+    border-style: solid;
+    border-width: thick;
+    border-color: #08415C;
+    width: 40%;
+    background-color: #e7e7e7;
+    color: #08415C;
+    margin:auto;
+    border-radius: 25px;
+    margin-top: 50px;
+   
+    padding-bottom: 2%;
+  }
+
+  .baseroot2{
+    border-style: solid;
+    border-width: thick;
+    border-color: #08415C;
+    width: 90%;
+    background-color:#ffffff5d;
+    color: #08415C;
+    margin:auto;
+    border-radius: 25px;
+    margin-top: 50px;
+    padding-bottom: 2%;
+  }
