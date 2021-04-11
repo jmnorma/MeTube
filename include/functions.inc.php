@@ -1,4 +1,4 @@
-<?php 
+<?php
     include_once "dbh.inc.php";
 ?>
 
@@ -13,21 +13,21 @@
         $conn = mysqli_connect($db_host, $db_user, $db_password, $db_database);
         $query = "select * from users where username='$username'";
         $result = mysqli_query($conn, $query);
-            
+
         if (!$result)
         {
            die ("user_pass_check() failed. Could not query the database: <br />". mysql_error());
         }
         else{
             $row = mysqli_fetch_assoc($result);
-            if(strcmp($row["password"],$password)){
+            if(password_verify($password, $row["password"])){
                 $temp = $row["password"];
                 echo "$temp";
                 return 2; //wrong password
-            }    
-            else 
+            }
+            else
                 return 0; //Checked.
-        }	
+        }
     }
 
     function queryResults( $query = ""){

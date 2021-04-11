@@ -1,4 +1,4 @@
-<?php 
+<?php
     include_once('include/functions.inc.php');
     session_start();
 
@@ -17,7 +17,7 @@ if(isset($_POST['submit'])) {
 			else if($check==0){
 				$_SESSION['username']=$_POST['username']; //Set the $_SESSION['username']
 				header('Location: browse.php');
-			}		
+			}
 		}
 }
 
@@ -32,7 +32,7 @@ if(isset($_POST['submit'])) {
 
     <img src="metubeWhite.png" alt="MeTube Logo" class="Complete-logo">
         <b>
-            Created by Dylan and Josh 
+            Created by Dylan and Josh
         </b>
 
     <body class="App">
@@ -52,17 +52,19 @@ if(isset($_POST['submit'])) {
                     <td  width="20%">Password:</td>
                     <td width="80%"><input class="text"  type="password" name="password"><br /></td>
                 </tr>
-               
+
             </table>
                 <input name="submit" type="submit" value="Login">
                 <input name="reset" type="reset" value="Reset"> <br>
                     <div style="padding-top: 10px;"></div>
-                <input name="create" type="button" value="Create New Account"/>
         </form>
+              <div>
+                <a href="registration.php"><button>Create an Account</button></a>
+              </div>
         </div>
         </div>
 
-     
+
     </body>
 </html>
 
