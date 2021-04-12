@@ -59,3 +59,14 @@
     text-decoration: none;
     color:#ffffff;
   }
+  .contacts{
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
+    float:right;
+    align-self: center;
+    text-align: center;
+    padding: 8px 12px;
+    text-decoration: none;
+    color:#ffffff;
+  }

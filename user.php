@@ -87,6 +87,9 @@ if(isset($_POST['submit'])) {
         <div class="logout">
           <a class="logout" href='logout.php'>logout</a>
         </div>
+				<div class="contacts">
+					<a class="contacts" href='contacts.php'>contacts</a>
+				</div>
       	<?php
       		$username = $_SESSION['username'];
       		echo '<a class="upload" href="user.php">'.$username.'</a>';
