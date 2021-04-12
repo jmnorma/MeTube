@@ -1,5 +1,5 @@
 .home{
-    float: left; 
+    float: left;
     display: block;
     text-align: center;
     padding: 14px 16px;
@@ -32,7 +32,7 @@
   }
 
   .upload{
-    float: right; 
+    float: right;
     display: block;
     text-align: center;
     padding: 14px 16px;
@@ -46,4 +46,16 @@
     min-height: 20px;
     font-size: calc(10px + 2vmin);
     color: #ffffff;
+  }
+
+  .logout {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
+    float:right;
+    align-self: center;
+    text-align: center;
+    padding: 8px 12px;
+    text-decoration: none;
+    color:#ffffff;
   }

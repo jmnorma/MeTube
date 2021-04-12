@@ -11,22 +11,24 @@
         $db_database = "MeTube_mtiz";
 
         $conn = mysqli_connect($db_host, $db_user, $db_password, $db_database);
-        $query = "select * from users where username='$username'";
+        $query = "SELECT password FROM users WHERE username='$username'";
         $result = mysqli_query($conn, $query);
 
         if (!$result)
         {
            die ("user_pass_check() failed. Could not query the database: <br />". mysql_error());
         }
-        else{
-            $row = mysqli_fetch_assoc($result);
-            if(password_verify($password, $row["password"])){
-                $temp = $row["password"];
-                echo "$temp";
-                return 2; //wrong password
-            }
-            else
-                return 0; //Checked.
+        else {
+          if(!mysqli_num_rows($result)) {
+            return 1; // username not found
+          }
+          $row = mysqli_fetch_row($result);
+          if(strcmp($row[0],$password)) {
+            return 2; // Wrong password
+          }
+          else {
+            return 0; // Checked
+          }
         }
     }
 

@@ -17,40 +17,43 @@
 function saveDownload(id)
 {
 	readfile(id)
-} 
+}
 
 </script>
 </head>
 
 <body class="App">
- 
+
 <!-- Header/Tool Bar-->
 
-<div class="App-header"> 
-	<a class="home" href="">MeTube</a>
+<div class="App-header">
+	<a class="home" href="browse.php">MeTube</a>
 	<a class="home" href='mediaUpload.php'>Upload</a>
-	
+
 	<form method="post" action="browse.php">
-	<?php 
+	<div class="logout">
+		<a class="logout" href='logout.php'>logout</a>
+	</div>
+	<?php
 		$username = $_SESSION['username'];
-		echo '<a class="upload" href="user.php">'.$username.'</a>'; 
+		echo '<a class="upload" href="user.php">'.$username.'</a>';
 	?>
 
 	<div class="upload">
-	<input class="searchButton" name="Search" type="submit" value="Search">	
-	<input class="search" type="text" placeholder="Search..">	
+	<input class="searchButton" name="Search" type="submit" value="Search">
+	<input class="search" type="text" placeholder="Search..">
 	</div>
 </form>
-</div> 
+</div>
 
 <div style="padding-top: 30px;"></div>
 <div class="baseroot2">
 
 <div id='upload_result'>
-<?php 
+<?php
 	if(isset($_REQUEST['result']) && $_REQUEST['result']!=0)
 	{
-		
+
 		echo upload_error($_REQUEST['result']);
 
 	}
@@ -58,7 +61,7 @@ function saveDownload(id)
 </div>
 <br/><br/>
 <?php
-	$query = "SELECT * from Media"; 
+	$query = "SELECT * from Media";
 	$result = queryResults( $query );
 	if (!$result)
 	{
@@ -72,12 +75,12 @@ function saveDownload(id)
 		<?php
 			$html = '';
 			$totalItemPerLine = 3;
-			$i = 0; 
+			$i = 0;
 
 			while ($result_row = mysqli_fetch_row($result))
-			{ 
-				if( $i % $totalItemPerLine == 0 ){ 
-					$html .= '<div class="row">'; // New Row 
+			{
+				if( $i % $totalItemPerLine == 0 ){
+					$html .= '<div class="row">'; // New Row
 				}
 				$html .= '<div class="col"> <div class="media"> <div class="mediaText" > <a  href="media.php?id='.$result_row[0].'" target="_blank">'.$result_row[4].'</a><br><a href="'.$result_row[7].'" target="_blank" onclick="javascript:saveDownload('.$result_row[7].');">Download</a></div></div></div>';
 
@@ -86,9 +89,9 @@ function saveDownload(id)
 					$html .= '</div>'; // End Row
 				}
 				$i += 1;
-				
+
 		?>
-			
+
         <?php
 			}
 			echo $html;
