@@ -5,7 +5,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create'])){
   $username = trim($_POST['username']);
   $password = trim($_POST['password']);
   $email_address = trim($_POST['email_address']);
-  $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
   if($query = $conn->prepare("SELECT * FROM users WHERE username = ?")){
     $reg_error='';
@@ -21,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create'])){
       }
       if (empty($error)){
         $insertQuery = $conn->prepare("INSERT INTO users (username, password, email_address) VALUES (?, ?, ?);");
-        $insertQuery->bind_param("sss", $username, $password_hash, $email_address);
+        $insertQuery->bind_param("sss", $username, $password, $email_address);
         $result = $insertQuery->execute();
         if($result){
           $reg_error = "Registration Successful";

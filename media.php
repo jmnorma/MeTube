@@ -2,7 +2,7 @@
 <?php
 	session_start();
     include_once "include/functions.inc.php";
-?>	
+?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <link rel="stylesheet" href="app.css" type="text/css">
 <link rel="stylesheet" href="header.css" type="text/css">
@@ -33,8 +33,8 @@ if(isset($_GET['id'])) {
 	$query = "SELECT * FROM Media WHERE media_id='".$_GET['id']."'";
 	$result = queryResults( $query );
 	$result_row = mysqli_fetch_assoc($result);
-	
-	
+
+
 	$filename=$result_row["title"];
 	$filepath=$result_row["file_ulr"];
 	$type=$result_row["duration"];

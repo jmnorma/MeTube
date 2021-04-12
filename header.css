@@ -1,5 +1,5 @@
 .home{
-    float: left; 
+    float: left;
     display: block;
     text-align: center;
     padding: 14px 16px;
@@ -39,7 +39,7 @@
   }
 
   .upload{
-    float: right; 
+    float: right;
     display: block;
     text-align: center;
     padding: 14px 16px;
@@ -55,6 +55,7 @@
     color: #ffffff;
   }
 
+<<<<<<< HEAD
   .Playlist-header {
     align-items: center;
     justify-content: center;
@@ -62,3 +63,16 @@
     font-size: calc(10px + 2vmin);
     color: #ffffff;
   }
+=======
+  .logout {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
+    float:right;
+    align-self: center;
+    text-align: center;
+    padding: 8px 12px;
+    text-decoration: none;
+    color:#ffffff;
+  }
+>>>>>>> c9377f66b90095506ea6e482476c99070b71cfa4
