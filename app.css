@@ -63,10 +63,8 @@
   }
   
   .rectangle {
-    display: inline-flex;
-    width: 100px;
-    height: 100px;
-    background: rgb(255, 255, 255);
+    display: block;
+    background-color:#08415C;
   }
   
   .App-link {

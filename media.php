@@ -5,6 +5,7 @@
 ?>	
 <html xmlns="http://www.w3.org/1999/xhtml">
 <link rel="stylesheet" href="app.css" type="text/css">
+<link rel="stylesheet" href="header.css" type="text/css">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Media</title>
@@ -13,6 +14,20 @@
 </head>
 
 <body class="App">
+    
+<div class="App-header"> 
+	<a class="home" href="browse.php">MeTube</a>
+
+	<?php 
+		if( isset($_SESSION['username'])){
+			$username = $_SESSION['username'];
+		echo '<a class="upload" href="user.php">'.$username.'</a>'; 
+		}
+	?>
+</div> 
+
+
+<div class="baseroot2"> 
 <?php
 if(isset($_GET['id'])) {
 	$query = "SELECT * FROM Media WHERE media_id='".$_GET['id']."'";
@@ -23,39 +38,36 @@ if(isset($_GET['id'])) {
 	$filename=$result_row["title"];
 	$filepath=$result_row["file_ulr"];
 	$type=$result_row["duration"];
+
 	if($type == 0 ) //view image
 	{
+		
+		echo "<img style='margin-top: 5%;' src='".$filepath."'/><br>";
+
 		echo "Viewing Picture:";
 		echo $result_row["title"];
-		echo "<img src='".$filepath."'/>";
 	}
 	else //view movie
 	{	
-?>
-	<p>Viewing Video:<?php echo $result_row["file_ulr"];?></p>
-	<?php 
-	$video_location = $result_row['file_ulr'];     
-	echo '<video width="320" height="240" controls autoplay muted>';
-	
-	echo '<source src='.$video_location.' type="video/mp4">';
-	?>
-Your browser does not support the video tag.
-</video>
-
-
-</object>
-
-          
-          
-          
-       
-              
+		?>
+		<p>Viewing Video:<?php echo $result_row["file_ulr"];?></p><br>
+		<?php 
+		$video_location = $result_row['file_ulr'];     
+		echo '<video width="320" height="240" controls autoplay muted>';
+		
+		echo '<source src='.$video_location.' type="video/mp4">';
+		?>
+Y		our browser does not support the video tag.
+		</video>
+	</object>
+             
 <?php
 	}
 }
 else
 {
 ?>
+</div>
 <meta http-equiv="refresh" content="0;url=browse.php">
 <?php
 }
