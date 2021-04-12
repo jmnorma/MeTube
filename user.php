@@ -31,7 +31,9 @@ $user_id = mysqli_fetch_row($userResult)[0];
 <div class="App-header">
 	<a class="home" href="browse.php">MeTube</a>
 	<a class="home" href='mediaUpload.php'>Upload</a>
-    <a class="upload" href='logout.php'>logout</a>
+  <a class="upload" href='logout.php'>logout</a>
+	<a class="contacts" href='contacts.php'>contacts</a>
+
 
 </div>
 
@@ -210,31 +212,6 @@ if(isset($_POST['submit'])) {
   }
 }
 ?>
-
-  <!-- Header/Tool Bar-->
-
-    <div class="App-header">
-    	<a class="home" href="browse.php">MeTube</a>
-    	<a class="home" href='mediaUpload.php'>Upload</a>
-
-      	<form method="post" action="browse.php">
-        <div class="logout">
-          <a class="logout" href='logout.php'>logout</a>
-        </div>
-				<div class="contacts">
-					<a class="contacts" href='contacts.php'>contacts</a>
-				</div>
-      	<?php
-      		$username = $_SESSION['username'];
-      		echo '<a class="upload" href="user.php">'.$username.'</a>';
-      	?>
-
-      	<div class="upload">
-        	<input class="searchButton" name="Search" type="submit" value="Search">
-        	<input class="search" type="text" placeholder="Search..">
-      	</div>
-      </form>
-    </div>
 		<div>
     <br></br>
     <table style="background-color: #EBBAB9; width: 80%; margin: auto; border: none; border-radius: 4px; padding: 4px;">
