@@ -27,20 +27,22 @@ $user_id = mysqli_fetch_row($userResult)[0];
 </head>
 
 <body class="App">
-    
-<div class="App-header"> 
+
+<div class="App-header">
 	<a class="home" href="browse.php">MeTube</a>
 	<a class="home" href='mediaUpload.php'>Upload</a>
-    <a class="upload" href='logout.php'>logout</a>
+  <a class="upload" href='logout.php'>logout</a>
+	<a class="contacts" href='contacts.php'>contacts</a>
 
-</div> 
+
+</div>
 
 <h1 style=" background-color: #08415C; width: 60%; clear: both; margin: auto;" > <?php echo "$username"; ?> </h1>
 
 <div class="baseroot2" style="margin-top: 0px;">
 <br/><br/>
 <?php
-	$query = "SELECT * from Media where user_id=$user_id"; 
+	$query = "SELECT * from Media where user_id=$user_id";
 	$result = queryResults( $query );
 	if (!$result)
 	{
@@ -55,24 +57,24 @@ $user_id = mysqli_fetch_row($userResult)[0];
 			$html = '';
             $deleteHtml = '';
 			$totalItemPerLine = 3;
-			$i = 0; 
+			$i = 0;
 
 			while ($result_row = mysqli_fetch_row($result))
-			{ 
-				if( $i % $totalItemPerLine == 0 ){ 
-					$html .= '<div class="row">'; // New Row 
+			{
+				if( $i % $totalItemPerLine == 0 ){
+					$html .= '<div class="row">'; // New Row
 				}
 				$html .= '<div class="col"> <div class="media"> <div class="mediaText" > <a  href="media.php?id='.$result_row[0].'" target="_blank">'.$result_row[4].'</a><br><a href="'.$result_row[7].'" target="_blank" onclick="javascript:saveDownload('.$result_row[7].');">Download</a></div></div></div>';
                 $deleteHtml .=  '<option value="'.$result_row[0].'">'.$result_row[4].'</option>';
-				
+
                 if($i % $totalItemPerLine == ($totalItemPerLine-1))
 				{
 					$html .= '</div>'; // End Row
 				}
 				$i += 1;
-				
+
 		?>
-			
+
         <?php
 			}
 
@@ -97,38 +99,38 @@ $user_id = mysqli_fetch_row($userResult)[0];
         </form>
         </div>
 	</table>
-	
+
 	<!-- PLAYLISTS  -->
 	<br/><br/>
-	<?php 
-	$query = "SELECT * from playlists where user_id=$user_id"; 
+	<?php
+	$query = "SELECT * from playlists where user_id=$user_id";
 	$result = queryResults( $query );
 	?>
 
 	<div class="mediaText" style="background:#339900;color:#FFFFFF; width:200px; height: 40px; display: table-cell; font-size: x-large; "><?php echo "$username"; ?>'s Playlists</div>
-	
+
 	<table width="50%" cellpadding="0" cellspacing="0">
 		<?php
 			$html = '';
             $deleteHtml = '';
 			$totalItemPerLine = 3;
-			$i = 0; 
+			$i = 0;
 
 			while ($result_row = mysqli_fetch_assoc($result))
-			{ 
-				if( $i % $totalItemPerLine == 0 ){ 
-					$html .= '<div class="row">'; // New Row 
+			{
+				if( $i % $totalItemPerLine == 0 ){
+					$html .= '<div class="row">'; // New Row
 				}
 				$html .= '<div class="col"> <div class="media"> <div class="mediaText" > <a  href="playlist.php?id='.$result_row["playlist_id"].'" >'.$result_row["title"].'</a><br><h3>'.$result_row["items_count"].' Items </div></div></div>';
-                
+
                 if($i % $totalItemPerLine == ($totalItemPerLine-1))
 				{
 					$html .= '</div>'; // End Row
 				}
 				$i += 1;
-				
+
 		?>
-			
+
         <?php
 			}
 
