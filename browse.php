@@ -31,15 +31,17 @@ function saveDownload(id)
 	<a class="home" href='mediaUpload.php'>Upload</a>
 
 	<form method="post" action="browse.php">
-	<div class="logout">
-		<a class="logout" href='logout.php'>logout</a>
-	</div>
-	<?php
-		$username = $_SESSION['username'];
-		echo '<a class="upload" href="user.php">'.$username.'</a>';
-	?>
 
+	<?php 
+		if( isset($_SESSION['username'])){
+			$username = $_SESSION['username'];
+		echo '<a class="upload" href="user.php">'.$username.'</a>'; 
+		echo "<a class='upload' href='logout.php'>logout</a>";
+		}
+
+	?>
 	<div class="upload">
+	
 	<input class="searchButton" name="Search" type="submit" value="Search">
 	<input class="search" type="text" placeholder="Search..">
 	</div>
@@ -82,7 +84,7 @@ function saveDownload(id)
 				if( $i % $totalItemPerLine == 0 ){
 					$html .= '<div class="row">'; // New Row
 				}
-				$html .= '<div class="col"> <div class="media"> <div class="mediaText" > <a  href="media.php?id='.$result_row[0].'" target="_blank">'.$result_row[4].'</a><br><a href="'.$result_row[7].'" target="_blank" onclick="javascript:saveDownload('.$result_row[7].');">Download</a></div></div></div>';
+				$html .= '<div class="col"> <div class="media"> <div class="mediaText" > <a  href="media.php?id='.$result_row[0].'" >'.$result_row[4].'</a><br><a href="'.$result_row[7].'" target="_blank" onclick="javascript:saveDownload('.$result_row[7].');">Download</a></div></div></div>';
 
 				if($i % $totalItemPerLine == ($totalItemPerLine-1))
 				{
@@ -94,9 +96,72 @@ function saveDownload(id)
 
         <?php
 			}
+
+			if($i % $totalItemPerLine != ($totalItemPerLine-1)){
+                $html .= '</div>';
+            }
+
 			echo $html;
 		?>
 	</table>
 		</div>
+
+
+	<!-- GET PLAYLISTS -->
+
+<div class="baseroot2" >
+<div class="Playlist-header" style="margin-top: 10px;">
+
+<form method="post" action="createNewPlaylist.php">
+<input class="newPlaylist" name="createNewPlaylist" type="submit" value="Create New Playlist">	
+</form> 
+
+</div>
+
+<?php
+	$query = "SELECT * from playlists WHERE title!='My Favorites'"; 
+	$result = queryResults( $query );
+	if (!$result)
+	{
+	   die ("Could not query the media table in the database: <br />". mysql_error());
+	}
+?>
+    <div style="display: table;">
+    <div class="mediaText" style="background:#339900;color:#FFFFFF; width:200px; height: 40px; display: table-cell; font-size: x-large; ">All Playlists</div>
+	</div>
+	<table width="50%" cellpadding="0" cellspacing="0">
+		<?php
+			$html = '';
+			$totalItemPerLine = 3;
+			$i = 0; 
+
+			while ($result_row = mysqli_fetch_assoc($result))
+			{ 
+				if( $i % $totalItemPerLine == 0 ){ 
+					$html .= '<div class="row">'; // New Row 
+				}
+				$html .= '<div class="col"> <div class="media"> <div class="mediaText" > <a  href="playlist.php?id='.$result_row["playlist_id"].'" >'.$result_row["title"].'</a><br><h3>'.$result_row["items_count"].' Items </div></div></div>';
+
+				if($i % $totalItemPerLine == ($totalItemPerLine-1))
+				{
+					$html .= '</div>'; // End Row
+				}
+				$i += 1;
+				
+		?>
+			
+        <?php
+			}
+
+			if($i % $totalItemPerLine != ($totalItemPerLine-1)){
+                $html .= '</div>';
+            }
+
+			echo $html;
+		?>
+	</table>
+		</div>
+
+
 </body>
 </html>

@@ -18,6 +18,13 @@
     color:#ffffff;
   }
 
+  .newPlaylist{
+    float: right;
+    display: block;
+    text-align: center;
+    margin-right: 5%;
+  }
+
   .searchButton{
     margin-top: auto;
     margin-bottom: auto;
@@ -48,6 +55,13 @@
     color: #ffffff;
   }
 
+  .Playlist-header {
+    align-items: center;
+    justify-content: center;
+    min-height: 10px;
+    font-size: calc(10px + 2vmin);
+    color: #ffffff;
+  }
   .logout {
     margin-top: auto;
     margin-bottom: auto;
