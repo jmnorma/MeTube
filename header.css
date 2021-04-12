@@ -15,7 +15,7 @@
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    color:#ffffff;
+    color:black;
   }
 
   .newPlaylist{
@@ -47,6 +47,19 @@
     color:#ffffff;
   }
 
+  .Tabs{
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color:#ffffff;
+    background-color: #388697;
+    border-style: solid;
+    border-width: thick thin thin thin;
+    border-color: #08415c;
+  }
+
   .App-header {
     align-items: center;
     justify-content: center;
@@ -55,7 +68,6 @@
     color: #ffffff;
   }
 
-<<<<<<< HEAD
   .Playlist-header {
     align-items: center;
     justify-content: center;
@@ -63,7 +75,6 @@
     font-size: calc(10px + 2vmin);
     color: #ffffff;
   }
-=======
   .logout {
     margin-top: auto;
     margin-bottom: auto;
@@ -75,4 +86,3 @@
     text-decoration: none;
     color:#ffffff;
   }
->>>>>>> c9377f66b90095506ea6e482476c99070b71cfa4

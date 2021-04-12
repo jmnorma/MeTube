@@ -57,7 +57,7 @@ if(isset($_GET['id'])) {
 		
 		echo '<source src='.$video_location.' type="video/mp4">';
 		?>
-Y		our browser does not support the video tag.
+		Your browser does not support the video tag.
 		</video>
 	</object>
              
@@ -67,10 +67,62 @@ Y		our browser does not support the video tag.
 else
 {
 ?>
+
 </div>
 <meta http-equiv="refresh" content="0;url=browse.php">
 <?php
 }
 ?>
+
+<!-- Add to Playlist  -->
+
+<?php 
+
+if( isset($_SESSION['username'])){
+
+	$userValidate = "SELECT user_id FROM users WHERE username='".$username."';";
+	$userResult = queryResults( $userValidate );
+	$user_id = mysqli_fetch_row( $userResult )[0];
+
+
+	$query = "SELECT * FROM playlists WHERE user_id=".$user_id.";";
+	$result = queryResults( $query );
+
+	$html = '';
+	$totalItemPerLine = 3;
+	$i = 0; 
+
+	while ($result_row = mysqli_fetch_row($result))
+	{ 
+		if( $i % $totalItemPerLine == 0 ){ 
+			$html .= '<div class="row">'; // New Row 
+		}
+		$html .=  '<option value="'.$result_row[0].'">'.$result_row[2].'</option>';
+
+		if($i % $totalItemPerLine == ($totalItemPerLine-1))
+		{
+			$html .= '</div>'; // End Row
+		}
+		$i += 1;
+	}
+
+?>
+	<div style="padding-top: 35px; clear: both; "> </div>
+	<div style="padding: 1px; background-color: #08415C;  margin: auto; width: 80% "> </div>
+	<div class="App-header" >
+	<form method="post" action="addToPlaylist.php?id=<?php echo $_GET['id'];?>" enctype="multipart/form-data">
+	<label style="font-size: large" for="cars">Add to Playlist:</label>
+		<select name="playlist" id="playlist">
+		<?php echo $html; ?>
+	</select>
+	<input type="submit" value="Add">
+	</form>
+	</div>
+
+<?php
+}
+?>
+
+</div>
 </body>
 </html>

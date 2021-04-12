@@ -30,7 +30,7 @@ function saveDownload(id)
 	<a class="home" href="browse.php">MeTube</a>
 	<a class="home" href='mediaUpload.php'>Upload</a>
 
-	<form method="post" action="browse.php">
+	<form method="post" action="searchResults.php?id=1">
 
 	<?php 
 		if( isset($_SESSION['username'])){
@@ -43,7 +43,7 @@ function saveDownload(id)
 	<div class="upload">
 	
 	<input class="searchButton" name="Search" type="submit" value="Search">
-	<input class="search" type="text" placeholder="Search..">
+	<input class="search" id="SearchValue" name="SearchValue" style="color: black;" type="text" placeholder="Search..">
 	</div>
 </form>
 </div>

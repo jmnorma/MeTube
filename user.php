@@ -212,8 +212,10 @@ if(isset($_POST['submit'])) {
 ?>
 
   <div class="baseroot2">
+  <br/>
+  <div class="mediaText" style="background:#339900;color:#FFFFFF; width:400px; height: 40px; display: table-cell; font-size: x-large; ">Update Your Account</div>
     <br></br>
-    <table style="background-color: #EBBAB9; width: 80%; margin: auto; border: none; border-radius: 4px; padding: 4px;">
+    <table style="color: #FFFFFF; font-size: x-large; width: 80%; margin: auto; border: none; border-radius: 4px; padding: 2px;">
     <tr><td><p>You can change your account information here.</p></td></tr>
     <tr><td>
       <form method="POST" action="<?php echo "user.php"; ?>">
@@ -222,10 +224,10 @@ if(isset($_POST['submit'])) {
     </td></tr>
     <tr><td>
       <table>
-      <p class="generalText" style="padding-bottom: 1em;">
+      <p class="generalText" style="padding-bottom: 1em; font-size: large;">
         Leave fields with their starting values or blank if you do not wish to change them
       </p>
-        <table style="margin: auto;">
+        <table style="margin: auto; font-size: large;">
           <tr class="makealignright">
             <td>Email Address:</td>
             <td><input class="orangefield" type="text" name="newemail" value="">

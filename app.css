@@ -46,7 +46,7 @@
   }
 
   .mediaText {
-    top: 50%;
+    /* top: 50%; */
     margin: auto;
     display: table-cell;
     text-align: center;

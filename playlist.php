@@ -77,8 +77,11 @@ if(isset($_GET['id'])) {
 				if( $i % $totalItemPerLine == 0 ){ 
 					$html .= '<div class="row">'; // New Row 
 				}
-				$html .= '<div class="col"> <div class="media"> <div class="mediaText" > <a  href="media.php?id='.$result_row[0].'" >'.$result_row[1].'</a><br><a href="'.$result_row[2].'" target="_blank" onclick="javascript:saveDownload('.$result_row[2].');">Download</a></div></div></div>';
-
+				$html .= '<div class="col"> <div class="media"> <div class="mediaText" > <a  href="media.php?id='.$result_row[0].'" >'.$result_row[1].'</a><br><a href="'.$result_row[2].'" target="_blank" onclick="javascript:saveDownload('.$result_row[2].');">Download</a>';
+				if($userRow[0] == $user_id){
+					$html.= '<br/><br/><a href="deleteFromPlaylist.php?id='.$_GET['id'].'&media='.$result_row[0].'">Remove From Playlist</a>';
+				}
+				$html .= '</div></div></div>';
 				if($i % $totalItemPerLine == ($totalItemPerLine-1))
 				{
 					$html .= '</div>'; // End Row
