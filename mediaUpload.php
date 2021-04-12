@@ -14,22 +14,13 @@ session_start();
 <body class="App">
   <div class="App-header">
     <a class="home" href="browse.php">MeTube</a>
-    <a class="home" href='mediaUpload.php'>Upload</a>
+    <a class="upload" href='logout.php'>logout</a>
 
-      <form method="post" action="browse.php">
-      <div class="logout">
-        <a class="logout" href='logout.php'>logout</a>
-      </div>
       <?php
         $username = $_SESSION['username'];
         echo '<a class="upload" href="user.php">'.$username.'</a>';
       ?>
 
-      <div class="upload">
-        <input class="searchButton" name="Search" type="submit" value="Search">
-        <input class="search" type="text" placeholder="Search..">
-      </div>
-    </form>
   </div>
 <h1 style="padding-top: 30px;"> Media Upload </h1>
 <form method="post" action="mediaUploadProcess.php" enctype="multipart/form-data" class="baseroot2" style="margin-top: 30px;">
