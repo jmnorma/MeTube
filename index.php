@@ -30,7 +30,9 @@ if(isset($_POST['submit'])) {
         <title>MeTube Sign-In</title>
     </head>
 
-    <img src="metubeWhite.png" alt="MeTube Logo" class="Complete-logo">
+    <form method="post" action="browse.php">
+    <button name="submit" style=" margin-top: 5%; background-color: transparent; padding: 0; border: none;" value="submit"><img src="metubeWhite.png" alt="MeTube Logo"></button>
+    </form> 
         <b>
             Created by Dylan and Josh
         </b>

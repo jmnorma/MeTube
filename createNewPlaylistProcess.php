@@ -25,11 +25,7 @@ $conn = mysqli_connect($db_host, $db_user, $db_password, $db_database);
 $playlistCheck = "SELECT * FROM playlists where title='$title'";
 
 //Get USER_ID
-echo "$username";
 $user_resquest = "SELECT user_id from users where username='$username';";
-
-$numRows = mysqli_num_rows($user_resquest);
-if( $numRows == 0 ){ //Make sure the playlist doesnt already exist 
 
 $user_response = mysqli_query($conn, $user_resquest);
 $user_id = mysqli_fetch_assoc($user_response)["user_id"];
@@ -42,7 +38,6 @@ $queryresult = mysqli_query($conn, $insert);
 
 $result = "0";
 
-}
 	//You can process the error code of the $result here.
 ?>
 

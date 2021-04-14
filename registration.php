@@ -55,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create'])){
     <title>Register</title>
   </head>
   <body class="App">
+  <div class=baseroot2 >
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -80,6 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create'])){
           </form>
         </div>
       </div>
+    </div>
     </div>
   </body>
 </html>

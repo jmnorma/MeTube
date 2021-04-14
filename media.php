@@ -2,6 +2,8 @@
 <?php
 	session_start();
     include_once "include/functions.inc.php";
+	include_once "include/likes.inc.php";
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <link rel="stylesheet" href="app.css" type="text/css">
@@ -132,7 +134,7 @@ if( isset($_SESSION['username'])){
 	<div style="padding: 1px; background-color: #08415C;  margin: auto; width: 80% "> </div>
 	<div class="App-header" >
 	<form method="post" action="addToPlaylist.php?id=<?php echo $_GET['id'];?>" enctype="multipart/form-data">
-	<label style="font-size: large" for="cars">Add to Playlist:</label>
+	<label style="font-size: large" for="playlist">Add to Playlist:</label>
 		<select name="playlist" id="playlist">
 		<?php echo $html; ?>
 	</select>
@@ -140,7 +142,30 @@ if( isset($_SESSION['username'])){
 	</form>
 	</div>
 
+<!-- Method for Liking and Disliking media -->
 <?php
+	$media_id = $_GET['id'];
+	$likeQuery = "SELECT SUM(CASE WHEN type=True THEN 1 ELSE 0 END) , SUM(CASE WHEN type=False THEN 1 ELSE 0 END) FROM ratings WHERE media_id=$media_id ;";
+	$result = queryResults($likeQuery);
+	$ratings = mysqli_fetch_row($result);
+	if ( $ratings[0]== NULL ){
+		$likeNum = 0;
+		$dislikeNum = 0;
+	}
+	else{	
+		$likeNum = $ratings[0];
+		$dislikeNum = $ratings[1];
+	}
+	echo "$likeNum Likes ";
+	echo " $dislikeNum Dislikes ";
+	?>
+	<form method="post" action="ratingProcess.php?id=<?php echo $_GET['id'];?>&uid=<?php echo $user_id;?>" enctype="multipart/form-data">
+	<input type="submit" id="submit" name="submit" value="Like">
+	<input type="submit" id="submit" name="submit" value="Dislike"> 
+	</form>
+
+	<?php
+	
 }
 ?>
 
@@ -156,9 +181,11 @@ if( isset($_SESSION['username'])){
 
 		while ($comment_result_row = mysqli_fetch_row($comment_result))
 		{
-			$html .= '<p> '.$comment_result_row[2].'
-			<form action="" method="post">
-			<input type="submit"name="removeComment" value='.$comment_result_row[0].'>
+			$html .= '<p> '.$comment_result_row[2];
+		
+			$html .= '<form action="" method="post">
+			<input type="submit" name="submit" value="Delete">
+			<input type="hidden"  name="removeComment" value='.$comment_result_row[0].'>
 			</form></p>';
 			$i += 1;
 
