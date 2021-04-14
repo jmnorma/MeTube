@@ -38,8 +38,9 @@ function saveDownload(id)
 
 <div class="App-header">
 	<a class="home" href="browse.php">MeTube</a>
+	<?php if( isset($_SESSION['username'])){ ?>
 	<a class="home" href='mediaUpload.php'>Upload</a>
-
+	<?php } ?>
 	<form method="post" action="searchResults.php?id=1">
 
 	<?php 
@@ -47,6 +48,9 @@ function saveDownload(id)
 			$username = $_SESSION['username'];
 		echo '<a class="upload" href="user.php">'.$username.'</a>'; 
 		echo "<a class='upload' href='logout.php'>logout</a>";
+		}
+		else {
+			echo "<a class='upload' href='index.php'>Log In</a>";
 		}
 	?>
 	<div class="upload">

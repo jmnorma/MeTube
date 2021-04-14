@@ -11,9 +11,22 @@ if(!isset($_SESSION['username'])) {
 	return;
   }
 
+
 $queryUser = "SELECT user_id FROM users where username='$username';";
 $userResult = queryResults($queryUser);
 $user_id = mysqli_fetch_row($userResult)[0];
+
+$user_view_id = $user_id;
+$usernameView = $username;
+
+if ( isset($_GET['id'])){
+  $user_view_id = $_GET['id'];
+  $queryUser = "SELECT username FROM users where user_id='$user_view_id';";
+  $userResult = queryResults($queryUser);
+  $usernameView = mysqli_fetch_row($userResult)[0];
+}
+
+
 
 ?>
 
@@ -30,19 +43,22 @@ $user_id = mysqli_fetch_row($userResult)[0];
 
 <div class="App-header">
 	<a class="home" href="browse.php">MeTube</a>
+
+  <?php if ( $user_id == $user_view_id) { ?>
 	<a class="home" href='mediaUpload.php'>Upload</a>
+  <?php } ?>
   <a class="upload" href='logout.php'>logout</a>
-	<a class="contacts" href='contacts.php'>contacts</a>
+	<a class="upload" href='contacts.php'>contacts</a>
 
 
 </div>
 
-<h1 style=" background-color: #08415C; width: 60%; clear: both; margin: auto;" > <?php echo "$username"; ?> </h1>
+<h1 style=" background-color: #08415C; width: 60%; clear: both; margin: auto;" > <?php echo "$usernameView"; ?> </h1>
 
 <div class="baseroot2" style="margin-top: 0px;">
 <br/><br/>
 <?php
-	$query = "SELECT * from Media where user_id=$user_id";
+	$query = "SELECT * from Media where user_id= $user_view_id";
 	$result = queryResults( $query );
 	if (!$result)
 	{
@@ -50,7 +66,7 @@ $user_id = mysqli_fetch_row($userResult)[0];
 	}
 ?>
     <div style="display: table;">
-    <div class="mediaText" style="background:#339900;color:#FFFFFF; width:200px; height: 40px; display: table-cell; font-size: x-large; "><?php echo "$username"; ?>'s Media</div>
+    <div class="mediaText" style="background:#339900;color:#FFFFFF; width:200px; height: 40px; display: table-cell; font-size: x-large; "><?php echo "$usernameView"; ?>'s Media</div>
 	</div>
 	<table width="50%" cellpadding="0" cellspacing="0">
 		<?php
@@ -89,6 +105,8 @@ $user_id = mysqli_fetch_row($userResult)[0];
 		?>
         <div style="padding-top: 35px; clear: both; "> </div>
         <div style="padding: 1px; background-color: #08415C;  margin: auto; width: 80% "> </div>
+        
+        <?php if ( $user_id == $user_view_id) { ?>
         <div class="App-header" >
         <form method="post" action="deleteMedia.php" enctype="multipart/form-data">
         <label style="font-size: large" for="cars">Delete Media:</label>
@@ -98,16 +116,17 @@ $user_id = mysqli_fetch_row($userResult)[0];
         <input type="submit" value="Delete">
         </form>
         </div>
+        <?php } ?>
 	</table>
 
 	<!-- PLAYLISTS  -->
 	<br/><br/>
 	<?php
-	$query = "SELECT * from playlists where user_id=$user_id";
+	$query = "SELECT * from playlists where user_id=$user_view_id";
 	$result = queryResults( $query );
 	?>
 
-	<div class="mediaText" style="background:#339900;color:#FFFFFF; width:200px; height: 40px; display: table-cell; font-size: x-large; "><?php echo "$username"; ?>'s Playlists</div>
+	<div class="mediaText" style="background:#339900;color:#FFFFFF; width:200px; height: 40px; display: table-cell; font-size: x-large; "><?php echo "$usernameView"; ?>'s Playlists</div>
 
 	<table width="50%" cellpadding="0" cellspacing="0">
 		<?php
@@ -213,6 +232,7 @@ if(isset($_POST['submit'])) {
 }
 ?>
 
+<?php if ( $user_id == $user_view_id) { ?>
   <div class="baseroot2">
   <br/>
   <div class="mediaText" style="background:#339900;color:#FFFFFF; width:400px; height: 40px; display: table-cell; font-size: x-large; ">Update Your Account</div>
@@ -251,5 +271,6 @@ if(isset($_POST['submit'])) {
     </td></tr>
     </table>
 	</div>
+  <?php } ?>
   </body>
 </html>
