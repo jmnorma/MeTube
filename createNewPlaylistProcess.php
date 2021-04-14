@@ -27,9 +27,9 @@ $playlistCheck = "SELECT * FROM playlists where title='$title'";
 //Get USER_ID
 echo "$username";
 $user_resquest = "SELECT user_id from users where username='$username';";
-$numRows = mysqli_num_rows($user_resquest);
-if( $numRows == 0 ){
 
+$numRows = mysqli_num_rows($user_resquest);
+if( $numRows == 0 ){ //Make sure the playlist doesnt already exist 
 
 $user_response = mysqli_query($conn, $user_resquest);
 $user_id = mysqli_fetch_assoc($user_response)["user_id"];

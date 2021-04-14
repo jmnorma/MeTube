@@ -28,13 +28,14 @@ session_start();
   <p style="margin:0; padding: 10px">
     <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
    Add a Media: <label style="color:#663399"><em> (Each file limit 10M)</em></label><br/>
-    <input  name="file" type="file" size="50" />
+    <input  name="file" type="file" size="50" required/>
 
-    <input type="radio" id="Video" name="media" value="Video">
+    <input type="radio" id="Video" name="media" value="Video" required>
       <label for="Video">Video</label>
     <input type="radio" id="Photo" name="media" value="Photo">
       <label for="Photo">Photo</label><br>
 
+    <label for="title">Title</label><input type="text" id="title" name="title" required> <br/>
     <label for="description">Description</label><br>
       <textarea type="text" cols="60" rows="3" id="Description" name="Description" maxlength="300" required>
       </textarea> <br>

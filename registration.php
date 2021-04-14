@@ -1,5 +1,7 @@
 <?php
 include_once('include/dbh.inc.php');
+include_once('include/functions.inc.php');
+session_start(); 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create'])){
   $username = trim($_POST['username']);
@@ -24,6 +26,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create'])){
         $result = $insertQuery->execute();
         if($result){
           $reg_error = "Registration Successful";
+          
+          //Create the My Favorites Playlist 
+          $queryUID = "SELECT user_id FROM users WHERE username='$username';";
+          $user_response = mysqli_query($conn, $queryUID);
+          $user_id = mysqli_fetch_assoc($user_response)["user_id"];
+
+          $createPlaylist = "INSERT INTO playlists( user_id, title, items_count ) VALUES( $user_id, 'My Favorites', 0); ";
+          mysqli_query( $conn, $createPlaylist);
+
+          $_SESSION['username']=$username;
         } else {
           $reg_error = "Issue creating account";
         }
@@ -75,5 +87,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create'])){
 
 <?php
  if(isset($reg_error))
-  {  echo "<div id='passwd_result'>".$reg_error."</div>";}
+  {  echo "<div id='passwd_result'>".$reg_error."</div>";
+    if (strcmp($reg_error,"Registration Successful") == 0 ){
+      echo '<meta http-equiv="refresh" content="0;url=browse.php">';
+    }
+    }
 ?>
