@@ -29,6 +29,11 @@
 
 <div class="baseroot2">
 <?php
+if(isset($_POST['removeComment'])){
+	$comment = $_POST['removeComment'];
+	$query = "DELETE FROM comments WHERE comment_id=$comment";
+	$result = queryResults($query);
+}
 if(isset($_POST['reply'])) { // post a reply to the discussion
 	$user = $_SESSION['username'];
 	$query = "SELECT user_id FROM users WHERE username='user';";
@@ -66,19 +71,19 @@ if(isset($_GET['id'])) {
 		echo $result_row["title"];
 	}
 	else //view movie
-	{	
+	{
 		?>
 		<p>Viewing Video:<?php echo $result_row["file_ulr"];?></p><br>
-		<?php 
-		$video_location = $result_row['file_ulr'];     
+		<?php
+		$video_location = $result_row['file_ulr'];
 		echo '<video width="320" height="240" controls autoplay muted>';
-		
+
 		echo '<source src='.$video_location.' type="video/mp4">';
 		?>
 		Your browser does not support the video tag.
 		</video>
 	</object>
-             
+
 <?php
 	}
 } else {
@@ -92,7 +97,7 @@ if(isset($_GET['id'])) {
 
 <!-- Add to Playlist  -->
 
-<?php 
+<?php
 
 if( isset($_SESSION['username'])){
 
@@ -106,12 +111,12 @@ if( isset($_SESSION['username'])){
 
 	$html = '';
 	$totalItemPerLine = 3;
-	$i = 0; 
+	$i = 0;
 
 	while ($result_row = mysqli_fetch_row($result))
-	{ 
-		if( $i % $totalItemPerLine == 0 ){ 
-			$html .= '<div class="row">'; // New Row 
+	{
+		if( $i % $totalItemPerLine == 0 ){
+			$html .= '<div class="row">'; // New Row
 		}
 		$html .=  '<option value="'.$result_row[0].'">'.$result_row[2].'</option>';
 
@@ -151,8 +156,10 @@ if( isset($_SESSION['username'])){
 
 		while ($comment_result_row = mysqli_fetch_row($comment_result))
 		{
-			$html .= '<p> '.$comment_result_row[2].' </p>';
-
+			$html .= '<p> '.$comment_result_row[2].'
+			<form action="" method="post">
+			<input type="submit"name="removeComment" value='.$comment_result_row[0].'>
+			</form></p>';
 			$i += 1;
 
 	?>

@@ -8,6 +8,22 @@ session_start();
 if(!isset($_SESSION['username'])){
   echo "<p>It looks like you are not signed in</p>";
   return;
+}if(isset($_POST['newmsg'])){
+  $msg = $_POST['newMessage'];
+  $cur_user_name = $_SESSION['username'];
+  $queryUser = "SELECT user_id FROM users where username='$cur_user_name';";
+  $userResult = queryResults($queryUser);
+  $cur_user_id = mysqli_fetch_row($userResult)[0];
+
+  $send_to_user = $_POST['sendTo'];
+  $queryUser = "SELECT user_id FROM users where username='$send_to_user';";
+  $userResult = queryResults($queryUser);
+  $cur_contact_id = mysqli_fetch_row($userResult)[0];
+  $query = "INSERT INTO messages (sending_user, receiving_user, content)
+            VALUES ($cur_user_id, $cur_contact_id, '$msg');";
+  $result = queryResults($query);
+  // echo "<div id='passwd_result'>".$query."</div>";
+
 }
 if(isset($_POST['add'])){
   $add_error='';
@@ -39,26 +55,30 @@ if(isset($_POST['add'])){
   if(isset($add_error))
    {  echo "<div id='passwd_result'>".$add_error."</div>";}
 }else if(isset($_POST['remove'])){
-  if($query = $conn->prepare("SELECT user_id FROM users WHERE username='$_POST[deleteuser]'")){
-    $remove_error = '';
-    $query->execute();
-    $query->store_result();
-    $result = $query->fetch();
-    if($query->num_rows == 0){
-      $remove_error = "User does not exist";
+  $remove_error='';
+  $contact_name = $_POST['contact_username'];
+  $query = "SELECT user_id FROM users where username='$contact_name';";
+  $contact_result = queryResults($query);
+  $contact_user_id = mysqli_fetch_row($contact_result)[0];
+  if(mysqli_num_rows($contact_result) == 0) {
+  echo "<p>No user found by that name!</p>";
+  }
+  //current user id
+  $cur_user_name = $_SESSION['username'];
+  $queryUser = "SELECT user_id FROM users where username='$cur_user_name';";
+  $userResult = queryResults($queryUser);
+  $cur_user_id = mysqli_fetch_row($userResult)[0];
+  if(mysqli_num_rows($userResult) == 0){
+    echo "<p>No user logged in</p>";
+  }
+  if(empty($remove_error)){
+    $insertQuery = "DELETE FROM contacts WHERE user_sender=".$cur_user_id." AND user_receiver=".$contact_user_id.";";
+    $queryresult = mysqli_query($conn, $insertQuery);
+    // echo "<div id='passwd_result'>".$insertQuery."</div>";
+    if($queryresult){
+      $remove_error = "User successfully removed from contacts";
     }else{
-      $reciever_user_id = $row['user_reciever'];
-      $cur_user_id = $row['user_sender'];
-      if($query = $conn->prepare("DELETE FROM contacts WHERE user_reciever=$reciever_user_id and user_sender=$cur_user_id")){
-        $remove_error = '';
-        $success = $query->execute();
-        if($success){
-          $remove_error = "Contact was successfully removed";
-        }else{
-          $remove_error = "Issue with removing contact";
-        }
-        $query->store_result();
-      }
+      $remove_error = "Issue removing contact from contact list";
     }
   }
 }
@@ -72,8 +92,6 @@ if(isset($_POST['add'])){
  $contact_result = mysqli_query($conn, $contact_query);
 
 
- $msg_query = "SELECT content FROM messages, users, contacts WHERE users.user_id=contacts.user_receiver AND contacts.user_sender=$cur_user_id";
- $msg_result = mysqli_query($conn, $contact_query);
    ?>
  <head>
  <title>Profile</title>
@@ -115,12 +133,26 @@ if(isset($_POST['add'])){
             <input class="buttonOnPurple" type="submit" name="add" value="Add">
             <input class="orangefield" type="text" name="contact_username" maxlength="30" required>
           </form>
+          <form method="POST" action="contacts.php">
+            <input class="buttonOnPurple" type="submit" name="remove" value="Remove">
+            <input class="orangefield" type="text" name="contact_username" maxlength="30" required>
+          </form>
         </td>
         </tr>
       </table>
       <h1>Contacts:</h1>
       <?php
         $html = '';
+        $textbox = '<div>
+          <form method=POST action ="contacts.php">
+
+            <label for="msg"><b>Message</b></label>
+            <textarea placeholder="Type message.." name="newMessage" required></textarea>
+            <input name="sendTo" value="send to">
+            <input class="buttonOnPurple" type="submit" name="newmsg" value="Send">
+
+          </form>
+        </div>';
         if(mysqli_num_rows($contact_result) == 0){
           echo "</br>";
           echo "No Contacts";
@@ -129,16 +161,25 @@ if(isset($_POST['add'])){
 
         while ($contact_result_row = mysqli_fetch_row($contact_result))
         {
+         $msg = '';
+         $cur_contact = $contact_result_row[0];
+         $queryContact = "SELECT user_id FROM users where username='$cur_contact';";
+         $userResult = queryResults($queryContact);
+         $cur_contact_id = mysqli_fetch_row($userResult)[0];
+         $msg_query = "SELECT content FROM messages WHERE receiving_user=$cur_contact_id
+         AND sending_user=$cur_user_id";
+         $msg_result = mysqli_query($conn, $msg_query);
+
           if(mysqli_num_rows($msg_result)==0){
-            $msg = "No messages with this contact";
+            $msg = "No messages with this user";
           }else{
             $j = 1;
-            while($message_result_row = mysqli_fetch_row($msg_result)){
-              $msg .= '<p> '.$message_result_row[0].' </p>';
+            while($msg_result_row = mysqli_fetch_row($msg_result)){
+              $msg .= '<p> '.$msg_result_row[0].'</p>';
               $j += 1;
             }
           }
-          $html .= '<p> '.$contact_result_row[0].' </p></br> '.$msg.'';
+          $html .= '<h2> Messages From: '.$cur_contact.' </h2> '.$msg.'';
 
           $i += 1;
 
@@ -147,6 +188,7 @@ if(isset($_POST['add'])){
           <?php
         }
       }
+        echo $textbox;
         echo $html;
       ?>
     </td>
