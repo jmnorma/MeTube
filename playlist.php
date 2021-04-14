@@ -24,6 +24,9 @@
 			$username = $_SESSION['username'];
 		echo '<a class="upload" href="user.php">'.$username.'</a>'; 
 		}
+		else {
+			echo "<a class='upload' href='index.php'>Log In</a>";
+		}
 	?>
 </div> 
 
@@ -44,6 +47,7 @@ if(isset($_GET['id'])) {
     $query = "SELECT Media.media_id, Media.title, Media.file_ulr FROM Media INNER JOIN playlist_items ON playlist_items.media_id = Media.media_id WHERE playlist_items.playlist_id = ".$playlist_id.";";
     $result = queryResults( $query );
 
+	if( isset($_SESSION['username'])){
     $userValidate = "SELECT user_id FROM users WHERE username='".$username."';";
     $userResult = queryResults( $userValidate );
     $userRow = mysqli_fetch_row( $userResult );
@@ -59,6 +63,7 @@ if(isset($_GET['id'])) {
             </div>
         <?php
     }
+}
 
     ?>
     <br/>
@@ -78,7 +83,7 @@ if(isset($_GET['id'])) {
 					$html .= '<div class="row">'; // New Row 
 				}
 				$html .= '<div class="col"> <div class="media"> <div class="mediaText" > <a  href="media.php?id='.$result_row[0].'" >'.$result_row[1].'</a><br><a href="'.$result_row[2].'" target="_blank" onclick="javascript:saveDownload('.$result_row[2].');">Download</a>';
-				if($userRow[0] == $user_id){
+				if( isset($_SESSION['username']) && $userRow[0] == $user_id){
 					$html.= '<br/><br/><a href="deleteFromPlaylist.php?id='.$_GET['id'].'&media='.$result_row[0].'">Remove From Playlist</a>';
 				}
 				$html .= '</div></div></div>';
