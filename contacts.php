@@ -1,53 +1,43 @@
 <html>
 <?php
 include_once('include/dbh.inc.php');
+include_once ('include/functions.inc.php');
 
 session_start();
 
 if(!isset($_SESSION['username'])){
-  echo "<p class=\"errorText\">It looks like you are not signed in</p>";
+  echo "<p>It looks like you are not signed in</p>";
   return;
 }
 if(isset($_POST['add'])){
-  //contact id
+  $add_error='';
   $contact_name = $_POST['contact_username'];
-  $query = "SELECT user_id from users where username='$contact_name';";
-  $result = mysqli_query($conn, $query);
-  $contact_user_id = mysqli_fetch_assoc($result)["user_id"];
-  if(mysqli_num_rows($result) == 0) {
+  $query = "SELECT user_id FROM users where username='$contact_name';";
+  $contact_result = queryResults($query);
+  $contact_user_id = mysqli_fetch_row($contact_result)[0];
+  if(mysqli_num_rows($contact_result) == 0) {
   echo "<p>No user found by that name!</p>";
   }
   //current user id
   $cur_user_name = $_SESSION['username'];
-  $query = "SELECT user_id from users where username='$cur_user_name';";
-  $result_user = mysqli_query($conn, $cur_user_name);
-  $cur_user_id = mysqli_fetch_assoc($result_user)["user_id"];
-  if(mysqli_num_rows($result_user) == 0){
+  $queryUser = "SELECT user_id FROM users where username='$cur_user_name';";
+  $userResult = queryResults($queryUser);
+  $cur_user_id = mysqli_fetch_row($userResult)[0];
+  if(mysqli_num_rows($userResult) == 0){
     echo "<p>No user logged in</p>";
   }
-  else{
-    if($query = $conn->prepare("SELECT contact_id FROM contacts WHERE user_reciever='$cur_user_id' AND user_sender = '$contact_user_id'")){
-      $add_error = '';
-    $query->execute();
-    $query->store_result();
-    if($query->num_rows >0){
-      $add_error = "Contact already existing";
-    }
-    if(empty($add_error)){
-      $insertQuery = $conn->prepare("INSERT INTO contacts(user_sender, user_reciever) VALUES ($cur_user_id, $contact_user_id)");
-      $insertQuery->bind_param("ss", $cur_user_id, $contact_user_id);
-      $result = $insertQuery->execute();
-      $insertQuery->store_result();
-      if($result){
-        $add_error = "User successfully added as a contact";
-      }else{
-        $add_error = "Issue adding contact to contact list";
-      }
+  if(empty($add_error)){
+    $insertQuery = "INSERT INTO contacts(user_sender, user_receiver) VALUES (".$cur_user_id.", ".$contact_user_id.");";
+    $queryresult = mysqli_query($conn, $insertQuery);
+    // echo "<div id='passwd_result'>".$insertQuery."</div>";
+    if($queryresult){
+      $add_error = "User successfully added as a contact";
+    }else{
+      $add_error = "Issue adding contact to contact list";
     }
   }
-}
-if(isset($add_error))
- {  echo "<div id='passwd_result'>".$add_error."</div>";}
+  if(isset($add_error))
+   {  echo "<div id='passwd_result'>".$add_error."</div>";}
 }else if(isset($_POST['remove'])){
   if($query = $conn->prepare("SELECT user_id FROM users WHERE username='$_POST[deleteuser]'")){
     $remove_error = '';
@@ -73,6 +63,18 @@ if(isset($add_error))
   }
 }
  ?>
+ <?php
+ $cur_user_name = $_SESSION['username'];
+ $queryUser = "SELECT user_id FROM users where username='$cur_user_name';";
+ $userResult = queryResults($queryUser);
+ $cur_user_id = mysqli_fetch_row($userResult)[0];
+ $contact_query = "SELECT username FROM users, contacts WHERE users.user_id=contacts.user_receiver AND contacts.user_sender=$cur_user_id";
+ $contact_result = mysqli_query($conn, $contact_query);
+
+
+ $msg_query = "SELECT content FROM messages, users, contacts WHERE users.user_id=contacts.user_receiver AND contacts.user_sender=$cur_user_id";
+ $msg_result = mysqli_query($conn, $contact_query);
+   ?>
  <head>
  <title>Profile</title>
  <link rel="stylesheet" type="text/css" href="app.css" />
@@ -116,6 +118,37 @@ if(isset($add_error))
         </td>
         </tr>
       </table>
+      <h1>Contacts:</h1>
+      <?php
+        $html = '';
+        if(mysqli_num_rows($contact_result) == 0){
+          echo "</br>";
+          echo "No Contacts";
+        }else{
+        $i = 1;
+
+        while ($contact_result_row = mysqli_fetch_row($contact_result))
+        {
+          if(mysqli_num_rows($msg_result)==0){
+            $msg = "No messages with this contact";
+          }else{
+            $j = 1;
+            while($message_result_row = mysqli_fetch_row($msg_result)){
+              $msg .= '<p> '.$message_result_row[0].' </p>';
+              $j += 1;
+            }
+          }
+          $html .= '<p> '.$contact_result_row[0].' </p></br> '.$msg.'';
+
+          $i += 1;
+
+      ?>
+
+          <?php
+        }
+      }
+        echo $html;
+      ?>
     </td>
 
    </body>
