@@ -48,8 +48,9 @@ if ( isset($_GET['id'])){
 	<a class="home" href='mediaUpload.php'>Upload</a>
   <?php } ?>
   <a class="upload" href='logout.php'>logout</a>
+  <?php if ( $user_id == $user_view_id) { ?>
 	<a class="upload" href='contacts.php'>contacts</a>
-
+  <?php } ?>
 
 </div>
 
