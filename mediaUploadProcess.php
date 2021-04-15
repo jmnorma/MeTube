@@ -12,10 +12,10 @@ $username=$_SESSION['username'];
 
 //Create Directory if doesn't exist
 if(!file_exists('uploads/'))
-	mkdir('uploads/', 0744);
+	mkdir('uploads/', 0761);
 $dirfile = 'uploads/'.$username.'/';
 if(!file_exists($dirfile))
-	mkdir($dirfile, 0744);
+	mkdir($dirfile, 0761);
 
 
 	if($_FILES["file"]["error"] > 0 )
