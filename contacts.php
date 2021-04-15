@@ -8,7 +8,7 @@ session_start();
 if(!isset($_SESSION['username'])){
   echo "<p>It looks like you are not signed in</p>";
   return;
-}if(isset($_POST['newmsg'])){
+}if(isset($_POST['submit'])){
   $msg = $_POST['newMessage'];
   $cur_user_name = $_SESSION['username'];
   $queryUser = "SELECT user_id FROM users where username='$cur_user_name';";
@@ -22,7 +22,7 @@ if(!isset($_SESSION['username'])){
   $query = "INSERT INTO messages (sending_user, receiving_user, content)
             VALUES ($cur_user_id, $cur_contact_id, '$msg');";
   $result = queryResults($query);
-  // echo "<div id='passwd_result'>".$query."</div>";
+  echo "<div id='passwd_result'>".$query."</div>";
 
 }
 if(isset($_POST['add'])){
@@ -45,8 +45,10 @@ if(isset($_POST['add'])){
   if(empty($add_error)){
     $insertQuery = "INSERT INTO contacts(user_sender, user_receiver) VALUES (".$cur_user_id.", ".$contact_user_id.");";
     $queryresult = mysqli_query($conn, $insertQuery);
+    $insertQuery_otherDir = "INSERT INTO contacts(user_sender, user_receiver) VALUES (".$contact_user_id.", ".$cur_user_id.");";
+    $query_otherDir = mysqli_query($conn, $insertQuery_otherDir);
     // echo "<div id='passwd_result'>".$insertQuery."</div>";
-    if($queryresult){
+    if($queryresult && $query_otherDir){
       $add_error = "User successfully added as a contact";
     }else{
       $add_error = "Issue adding contact to contact list";
@@ -74,6 +76,8 @@ if(isset($_POST['add'])){
   if(empty($remove_error)){
     $insertQuery = "DELETE FROM contacts WHERE user_sender=".$cur_user_id." AND user_receiver=".$contact_user_id.";";
     $queryresult = mysqli_query($conn, $insertQuery);
+    $insertQuery = "DELETE FROM contacts WHERE user_sender=".$contact_user_id." AND user_receiver=".$cur_user_id.";";
+    $queryresult = mysqli_query($conn, $insertQuery);
     // echo "<div id='passwd_result'>".$insertQuery."</div>";
     if($queryresult){
       $remove_error = "User successfully removed from contacts";
@@ -97,6 +101,7 @@ if(isset($_POST['add'])){
  <title>Profile</title>
  <link rel="stylesheet" type="text/css" href="app.css" />
  <link rel="stylesheet" href="header.css" type="text/css">
+ <link rel="stylesheet" href="messages.css" type="text/css">
  </head>
 
    <body class="App">
@@ -143,6 +148,7 @@ if(isset($_POST['add'])){
       <h1>Contacts:</h1>
       <?php
         $html = '';
+        $addcontact = '';
         $textbox = '<div>
           <form method=POST action ="contacts.php">
 
@@ -153,6 +159,8 @@ if(isset($_POST['add'])){
 
           </form>
         </div>';
+        ?>
+        <?php
         if(mysqli_num_rows($contact_result) == 0){
           echo "</br>";
           echo "No Contacts";
@@ -161,13 +169,13 @@ if(isset($_POST['add'])){
 
         while ($contact_result_row = mysqli_fetch_row($contact_result))
         {
-         $msg = '';
+         $msg = '<div class="container">';
          $cur_contact = $contact_result_row[0];
          $queryContact = "SELECT user_id FROM users where username='$cur_contact';";
          $userResult = queryResults($queryContact);
          $cur_contact_id = mysqli_fetch_row($userResult)[0];
-         $msg_query = "SELECT content FROM messages WHERE receiving_user=$cur_contact_id
-         AND sending_user=$cur_user_id";
+         $msg_query = "SELECT content, receiving_user, sending_user FROM messages WHERE receiving_user=$cur_contact_id
+         AND sending_user=$cur_user_id OR (sending_user=$cur_contact_id AND receiving_user=$cur_user_id)";
          $msg_result = mysqli_query($conn, $msg_query);
 
           if(mysqli_num_rows($msg_result)==0){
@@ -175,22 +183,27 @@ if(isset($_POST['add'])){
           }else{
             $j = 1;
             while($msg_result_row = mysqli_fetch_row($msg_result)){
-              $msg .= '<p> '.$msg_result_row[0].'</p>';
+              if($msg_result_row[2]==$cur_contact_id){
+              $msg .= '<p class="receiver"> '.$msg_result_row[0].'</p>';
+            }else{
+              $msg .= '<p class="sender"> '.$msg_result_row[0].'</p>';
+            }
               $j += 1;
             }
           }
-          $html .= '<h2> Messages From: '.$cur_contact.' </h2> '.$msg.'';
-
+          $msg .= '</div>';
+          $html .= '<h2> Messages with: '.$cur_contact.' </h2> '.$msg.'';
           $i += 1;
 
       ?>
-
           <?php
         }
-      }
+      }?>
+    <?php
         echo $textbox;
         echo $html;
       ?>
+
     </td>
 
    </body>
