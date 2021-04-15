@@ -22,7 +22,7 @@ if(!isset($_SESSION['username'])){
   $query = "INSERT INTO messages (sending_user, receiving_user, content)
             VALUES ($cur_user_id, $cur_contact_id, '$msg');";
   $result = queryResults($query);
-  echo "<div id='passwd_result'>".$query."</div>";
+  // echo "<div id='passwd_result'>".$query."</div>";
 
 }
 if(isset($_POST['add'])){
