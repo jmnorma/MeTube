@@ -8,7 +8,7 @@ session_start();
 if(!isset($_SESSION['username'])){
   echo "<p>It looks like you are not signed in</p>";
   return;
-}if(isset($_POST['submit'])){
+}if(isset($_POST['newmsg'])){
   $msg = $_POST['newMessage'];
   $cur_user_name = $_SESSION['username'];
   $queryUser = "SELECT user_id FROM users where username='$cur_user_name';";
@@ -174,8 +174,7 @@ if(isset($_POST['add'])){
          $queryContact = "SELECT user_id FROM users where username='$cur_contact';";
          $userResult = queryResults($queryContact);
          $cur_contact_id = mysqli_fetch_row($userResult)[0];
-         $msg_query = "SELECT content, receiving_user, sending_user FROM messages WHERE receiving_user=$cur_contact_id
-         AND sending_user=$cur_user_id OR (sending_user=$cur_contact_id AND receiving_user=$cur_user_id)";
+         $msg_query = "SELECT content, receiving_user, sending_user FROM messages WHERE receiving_user=$cur_contact_id AND sending_user=$cur_user_id OR (sending_user=$cur_contact_id AND receiving_user=$cur_user_id)";
          $msg_result = mysqli_query($conn, $msg_query);
 
           if(mysqli_num_rows($msg_result)==0){
