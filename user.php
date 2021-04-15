@@ -224,6 +224,9 @@ if(isset($_POST['submit'])) {
       $_SESSION['username']=$newusername;
       echo "<p>Username updated successfully</p>";
       }
+      ?>
+      <meta http-equiv="refresh" content="0;url=user.php" ?>
+      <?php
     }
 
   if(isset($error)) {

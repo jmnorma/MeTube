@@ -67,7 +67,7 @@ if(isset($_GET['id'])) {
 	if($type == 0 ) //view image
 	{
 
-		echo "<img style='margin-top: 5%;' src='".$filepath."'/><br>";
+		echo "<img style='margin-top: 5%;  width: 80%; height: 60%; object-fit: contain;' src='".$filepath."'/><br>";
 
 		echo "Viewing Picture:";
 		echo $result_row["title"];
