@@ -28,7 +28,7 @@ function getQueryString( $ID, $SearchValue ){
 		case 4: 
 			return "SELECT * FROM users WHERE username LIKE '%$SearchValue%';";
 		case 5: 
-			return "SELECT * FROM playlists WHERE title LIKE '%$SearchValue%';";	
+			return "SELECT * FROM playlists WHERE title LIKE '%$SearchValue%' AND title!='My Favorites';";	
 	}
 }
 ?>

@@ -59,6 +59,9 @@ if(isset($_GET['id'])) {
 	$comment_result = mysqli_query($conn, $comment_query);
 	// $comment_data = mysqli_fetch_assoc($comment_result);
 
+	$user_query = "SELECT username FROM users WHERE user_id='".$result_row['user_id']."';";
+	$user_result= queryResults( $user_query);
+	$username_media = mysqli_fetch_row($user_result)[0];
 
 	$filename=$result_row["title"];
 	$filepath=$result_row["file_ulr"];
@@ -66,24 +69,41 @@ if(isset($_GET['id'])) {
 
 	if($type == 0 ) //view image
 	{
+		echo "<h1>$filename</h1>";
+		echo "<h2>Uploaded By: $username_media</h2><br>";
+		echo "<img style='margin-top: 2%;  width: 80%; height: 60%; object-fit: contain;' src='".$filepath."'/><br>";
 
-		echo "<img style='margin-top: 5%;  width: 80%; height: 60%; object-fit: contain;' src='".$filepath."'/><br>";
+		echo "</br>Description: ";
+		echo $result_row["description"];
+		echo "</br>Category: ";
+		echo $result_row["category"];
 
-		echo "Viewing Picture:";
-		echo $result_row["title"];
+		echo "</br></br></br>Keywords: ";
+		echo $result_row["keywords"];
 	}
 	else //view movie
 	{
 		?>
-		<p>Viewing Video:<?php echo $result_row["file_ulr"];?></p><br>
+		<h1><?php echo $result_row["title"];?></h1><br>
+		<h2><?php echo "Uploaded By: $username_media";?></h2><br>
 		<?php
+		
 		$video_location = $result_row['file_ulr'];
 		echo '<video width="320" height="240" controls autoplay muted>';
+		echo '<source src='.$video_location.' type="video/mp4"> Your browser does not support the video tag.
+		</video>';
 
-		echo '<source src='.$video_location.' type="video/mp4">';
+		echo "</br>Description: ";
+		echo $result_row["description"];
+		
+		echo "</br>Category: ";
+		echo $result_row["category"];
+
+
+		echo "</br></br></br>Keywords: ";
+		echo $result_row["keywords"];
 		?>
-		Your browser does not support the video tag.
-		</video>
+		
 	</object>
 
 <?php
@@ -141,7 +161,7 @@ if( isset($_SESSION['username'])){
 	<input type="submit" value="Add">
 	</form>
 	</div>
-
+</br>
 <!-- Method for Liking and Disliking media -->
 <?php
 	$media_id = $_GET['id'];
@@ -170,6 +190,8 @@ if( isset($_SESSION['username'])){
 ?>
 
 </div>
+<div class="baseroot2" >
+<h2>Comments</h2>
 <table width="50%" cellpadding="0" cellspacing="0">
 	<?php
 		$html = '';
@@ -182,11 +204,12 @@ if( isset($_SESSION['username'])){
 		while ($comment_result_row = mysqli_fetch_row($comment_result))
 		{
 			$html .= '<p> '.$comment_result_row[2];
-		
+			if( isset($_SESSION['username'])){
 			$html .= '<form action="" method="post">
 			<input type="submit" name="submit" value="Delete">
 			<input type="hidden"  name="removeComment" value='.$comment_result_row[0].'>
 			</form></p>';
+			}
 			$i += 1;
 
 	?>
@@ -197,12 +220,14 @@ if( isset($_SESSION['username'])){
 		echo $html;
 	?>
 </br>
+	<?php if( isset($_SESSION['username'])){ ?>
 	<form method="POST" id="makecomment">
 		<textarea class="field" rows="4" cols="50" name="commentText" maxlength="1000" required="true"></textarea></br>
 		<input class="buttonOnOrange" type="submit" name="reply" value="Comment">
 	</form>
+	<?php } ?>
 </table>
-
+</div>
 
 </body>
 </html>

@@ -20,26 +20,26 @@ if(!file_exists($dirfile))
 
 	if($_FILES["file"]["error"] > 0 )
 	{ $result=$_FILES["file"]["error"];
-		echo "Here -1";
+		// echo "Here -1";
 		echo "$result";
 	} //error from 1-4
 	else
 	{
-	  echo "Here -2";
+	//   echo "Here -2";
 	  $upfile = $dirfile.urlencode($_FILES["file"]["name"]);
 	  
 	  if(file_exists($upfile))
 	  {
-			echo "Here 0";
+			// echo "Here 0";
 	  		$result="5"; //The file has been uploaded.
 	  }
 	  else{
 			if(is_uploaded_file($_FILES["file"]["tmp_name"]))
 			{
-				echo "Here 1";
+				// echo "Here 1";
 				if(!move_uploaded_file($_FILES["file"]["tmp_name"],$upfile))
 				{
-					echo "Here 3";
+					// echo "Here 3";
 					$result="6"; //Failed to move file from temporary directory
 				}
 				else /*Successfully upload file*/
@@ -49,8 +49,9 @@ if(!file_exists($dirfile))
 					if( strcmp( $durationValue, "Photo") == 0 ){
 						$duration = 0; 
 					}
-					echo "$duration";
+					// echo "$duration";
 
+					$title = $_POST['title'];
 					$description = $_POST['Description'];
 					$category = $_POST["Category"];
 					$keyword = $_POST["Keywords"];
@@ -64,7 +65,7 @@ if(!file_exists($dirfile))
                     // $result = mysqli_query($conn, $query);
                     
                     //Get USER_ID
-					echo "$username";
+					// echo "$username";
                     $user_resquest = "SELECT user_id from users where username='$username';";
                     $user_response = mysqli_query($conn, $user_resquest);
                     $user_id = mysqli_fetch_assoc($user_response)["user_id"];
@@ -73,8 +74,8 @@ if(!file_exists($dirfile))
 					//insert into media table
 					$insert = "insert into Media(
 							user_id, duration, date_uploaded, title , description, category, file_ulr, keywords)".
-							  "values( $user_id, $duration, '". date("Y-m-d") ."','". urlencode($_FILES["file"]["name"])."', '".$description."', '".$category."','". $file_url ."', '".$keyword."');";
-					echo "$insert";
+							  "values( $user_id, $duration, '". date("Y-m-d") ."','".$title."', '".$description."', '".$category."','". $file_url ."', '".$keyword."');";
+					// echo "$insert";
 					$queryresult = mysqli_query($conn, $insert);
 						//   or die("Insert into Media error in media_upload_process.php " .mysql_error());
 					$result="0";

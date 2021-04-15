@@ -37,16 +37,13 @@ session_start();
 
     <label for="title">Title</label><input type="text" id="title" name="title" required> <br/>
     <label for="description">Description</label><br>
-      <textarea type="text" cols="60" rows="3" id="Description" name="Description" maxlength="300" required>
-      </textarea> <br>
+      <textarea type="text" cols="60" rows="3" id="Description" name="Description" maxlength="300" required></textarea> <br>
 
     <label for="category">Category</label><br>
-      <textarea type="text" cols="30" rows="1" id="Category" name="Category" maxlength="32" required>
-      </textarea><br>
+      <textarea type="text" cols="30" rows="1" id="Category" name="Category" maxlength="32" required></textarea><br>
 
     <label for="keywords">Keywords</label> <br>
-      <textarea type="text" cols="60" rows="1" id="Keywords" name="Keywords" maxlength="200" required>
-      </textarea> <br>
+      <textarea type="text" cols="60" rows="1" id="Keywords" name="Keywords" maxlength="200" required></textarea> <br>
 
     <br>
 

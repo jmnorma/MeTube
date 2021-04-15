@@ -69,16 +69,45 @@ function saveDownload(id)
 <?php
 	$query = "SELECT * from Media";
 	$result = queryResults( $query );
+
+	$category_query = "SELECT * FROM Media GROUP BY category;";
+	$category_result = queryResults($category_query);
+
+
 	if (!$result)
 	{
 	   die ("Could not query the media table in the database: <br />". mysql_error());
 	}
+
+
+	$deleteHtml = '';
+	while ($result_row = mysqli_fetch_row($category_result))
+	{
+		$deleteHtml .=  '<option value="'.$result_row[6].'">'.$result_row[6].'</option>';
+	}
 ?>
+	<div class="Playlist-header" style="margin-top: 10px; width: 30%; float: right; margin-right: 3%;">
+		<form method="post" action="browse.php">
+			<label style="font-size: large" for="media">Category: </label>
+				<select name="category" id="category">
+				<?php echo $deleteHtml; ?>
+				</select>
+			<input class="newPlaylist" name="filter" type="submit" value="Filter">	
+		</form> 
+	</div>
+
     <div style="display: table;">
     <div class="mediaText" style="background:#339900;color:#FFFFFF; width:200px; height: 40px; display: table-cell; font-size: x-large; ">Uploaded Media</div>
 	</div>
 	<table width="50%" cellpadding="0" cellspacing="0">
 		<?php
+
+			if ( isset($_POST['category'])){
+				$category_filter= $_POST['category'];
+				$query = "SELECT * from Media WHERE category='$category_filter';";
+				$result = queryResults( $query );
+			}
+
 			$html = '';
 			$totalItemPerLine = 3;
 			$i = 0;
@@ -114,15 +143,15 @@ function saveDownload(id)
 	<!-- GET PLAYLISTS -->
 
 <div class="baseroot2" >
-<?php if( isset($_SESSION['username'])){ ?>
-<div class="Playlist-header" style="margin-top: 10px;">
 
+<div class="Playlist-header" style="margin-top: 10px;">
+<?php if( isset($_SESSION['username'])){ ?>
 <form method="post" action="createNewPlaylist.php">
 <input class="newPlaylist" name="createNewPlaylist" type="submit" value="Create New Playlist">	
 </form> 
-
-</div>
 <?php } ?>
+</div>
+
 <?php
 	$query = "SELECT * from playlists WHERE title!='My Favorites'"; 
 	$result = queryResults( $query );

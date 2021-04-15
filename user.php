@@ -109,7 +109,7 @@ if ( isset($_GET['id'])){
         <?php if ( $user_id == $user_view_id) { ?>
         <div class="App-header" >
         <form method="post" action="deleteMedia.php" enctype="multipart/form-data">
-        <label style="font-size: large" for="cars">Delete Media:</label>
+        <label style="font-size: large" for="media">Delete Media:</label>
             <select name="media" id="media">
             <?php echo $deleteHtml; ?>
         </select>
