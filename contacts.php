@@ -130,23 +130,16 @@ if(isset($_POST['add'])){
      <br></br>
 
      <td style="vertical-align: top;">
-      <table>
+     <div class="baseroot2" style=" width: fit-content; padding: 3% 5% 3% 5%;">
+      <table style="margin-top:3%; ">
         <tr>
-        <td style="padding-left: 20px;">
+        <td  style="padding-left: 20px; margin: auto;">
           <h2 class="mediaDetails" style="text-align: left; vertical-align: top;">Add Contacts</h2>
           <form method="POST" action="contacts.php">
-            <input class="buttonOnPurple" type="submit" name="add" value="Add">
-            <input class="orangefield" type="text" name="contact_username" maxlength="30" required>
+            <input type="submit" name="add" value="Add">
+            <input  type="text" name="contact_username" maxlength="30" required>
           </form>
-          <form method="POST" action="contacts.php">
-            <input class="buttonOnPurple" type="submit" name="remove" value="Remove">
-            <input class="orangefield" type="text" name="contact_username" maxlength="30" required>
-          </form>
-        </td>
-        </tr>
-      </table>
-
-    </div>
+         
       <?php
         $html = '';
         $addcontact = '';
@@ -163,18 +156,20 @@ if(isset($_POST['add'])){
         ?>
         <?php
         $contacts = '<div>
-              <h2 class="alignleft">Contact List:</h2><br></br>
+              <h2 style="margin:auto; text-align: center; margin-top: 3%;">Contact List:</h2>
               ';
         if(mysqli_num_rows($contact_result) == 0){
           echo "</br>";
           echo "No Contacts";
         }else{
         $i = 1;
-
+        
+        $contactSelect = "";
         while ($contact_result_row = mysqli_fetch_row($contact_result))
         {
          $msg = '<div class="container">';
          $cur_contact = $contact_result_row[0];
+         $contactSelect .= '<option value="'.$contact_result_row[0].'">'.$contact_result_row[0].'</option>';
          $queryContact = "SELECT user_id FROM users where username='$cur_contact';";
          $userResult = queryResults($queryContact);
          $cur_contact_id = mysqli_fetch_row($userResult)[0];
@@ -195,18 +190,40 @@ if(isset($_POST['add'])){
             }
           }
           $msg .= '</div>';
-          $contacts .= '<br></br><li class="alignleft">'.$cur_contact.'</li>';
-          $html .= '<h2> Messages with: '.$cur_contact.' </h2> '.$msg.'';
+          $contacts .= '<br></br><li style="text-align: center; list-style-type: none;">'.$cur_contact.'</li>';
+          $html .= '<div class="baseroot2" ><h2> Messages with: '.$cur_contact.' </h2> <div style="width: 80%; margin: auto;">'.$msg.'</div></div>';
           $i += 1;
 
       ?>
           <?php
         }
+      
+        $textbox = '<div class="baseroot2" style="clear:both; padding-top: 3%;">
+        <form method=POST action ="contacts.php">
+
+         <label for="sendTo">Send To: </label>
+          <select name="sendTo" id="sendTo" required>'.$contactSelect.'</select></br></br>
+          <label for="msg"><b>Message</b></label>
+          <textarea placeholder="Type message.." name="newMessage" required></textarea></br>
+          
+          <input class="buttonOnPurple" type="submit" name="newmsg" value="Send">
+
+        </form>
+      </div>';
       }?>
 
+<!-- ENDING DATA COLLECTION -->
+          <form method="POST" action="contacts.php">
+            <input  type="submit" name="remove" value="Remove">
+            <select name="contact_username" id="sendTo" required><?php echo $contactSelect; ?></select>
+          </form>
+        </td>
+        </tr>
+      </table>
+      </div>
     <?php
     $contacts .= '<ul></div>';
-        echo $contacts;
+        echo "<div class='baseroot2' >$contacts</div>";
         echo $textbox;
         echo $html;
       ?>

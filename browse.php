@@ -52,7 +52,7 @@ function saveDownload(id)
 </form>
 </div>
 
-<div style="padding-top: 30px;"></div>
+<div style="padding-top: 10px;"></div>
 <div class="baseroot2">
 
 <div id='upload_result'>
@@ -65,7 +65,7 @@ function saveDownload(id)
 	}
 ?>
 </div>
-<br/><br/>
+</br>
 <?php
 	$query = "SELECT * from Media";
 	$result = queryResults( $query );
@@ -86,17 +86,16 @@ function saveDownload(id)
 		$deleteHtml .=  '<option value="'.$result_row[6].'">'.$result_row[6].'</option>';
 	}
 ?>
-	<div class="Playlist-header" style="margin-top: 10px; width: 30%; float: right; margin-right: 3%;">
+	<div class="Playlist-header" style="margin-top: 1%; min-height: 0px; width: 25%; float: right; margin-right: 3%;">
 		<form method="post" action="browse.php">
 			<label style="font-size: large" for="media">Category: </label>
 				<select name="category" id="category">
-				<?php echo $deleteHtml; ?>
-				</select>
+				<?php echo $deleteHtml; ?></select>
 			<input class="newPlaylist" name="filter" type="submit" value="Filter">	
 		</form> 
 	</div>
 
-    <div style="display: table;">
+    <div style="display: table; clear:both; ">
     <div class="mediaText" style="background:#339900;color:#FFFFFF; width:200px; height: 40px; display: table-cell; font-size: x-large; ">Uploaded Media</div>
 	</div>
 	<table width="50%" cellpadding="0" cellspacing="0">
