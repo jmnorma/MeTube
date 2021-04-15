@@ -133,7 +133,7 @@ if(isset($_POST['add'])){
       <table>
         <tr>
         <td style="padding-left: 20px;">
-          <p class="mediaDetails" style="text-align: center; vertical-align: top;">Add Contacts</p>
+          <h2 class="mediaDetails" style="text-align: left; vertical-align: top;">Add Contacts</h2>
           <form method="POST" action="contacts.php">
             <input class="buttonOnPurple" type="submit" name="add" value="Add">
             <input class="orangefield" type="text" name="contact_username" maxlength="30" required>
@@ -145,7 +145,8 @@ if(isset($_POST['add'])){
         </td>
         </tr>
       </table>
-      <h1>Contacts:</h1>
+
+    </div>
       <?php
         $html = '';
         $addcontact = '';
@@ -161,6 +162,9 @@ if(isset($_POST['add'])){
         </div>';
         ?>
         <?php
+        $contacts = '<div>
+              <h2 class="alignleft">Contact List:</h2><br></br>
+              ';
         if(mysqli_num_rows($contact_result) == 0){
           echo "</br>";
           echo "No Contacts";
@@ -191,6 +195,7 @@ if(isset($_POST['add'])){
             }
           }
           $msg .= '</div>';
+          $contacts .= '<br></br><li class="alignleft">'.$cur_contact.'</li>';
           $html .= '<h2> Messages with: '.$cur_contact.' </h2> '.$msg.'';
           $i += 1;
 
@@ -198,7 +203,10 @@ if(isset($_POST['add'])){
           <?php
         }
       }?>
+
     <?php
+    $contacts .= '<ul></div>';
+        echo $contacts;
         echo $textbox;
         echo $html;
       ?>

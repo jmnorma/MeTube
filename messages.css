@@ -14,3 +14,12 @@
 .receiver{
   text-align:right;
 }
+.alignleft {
+
+    float: left;
+}
+
+.alignright {
+
+    float: right;
+}
