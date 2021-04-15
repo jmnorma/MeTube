@@ -45,8 +45,10 @@ if(isset($_POST['add'])){
   if(empty($add_error)){
     $insertQuery = "INSERT INTO contacts(user_sender, user_receiver) VALUES (".$cur_user_id.", ".$contact_user_id.");";
     $queryresult = mysqli_query($conn, $insertQuery);
+    $insertQuery_otherDir = "INSERT INTO contacts(user_sender, user_receiver) VALUES (".$contact_user_id.", ".$cur_user_id.");";
+    $query_otherDir = mysqli_query($conn, $insertQuery_otherDir);
     // echo "<div id='passwd_result'>".$insertQuery."</div>";
-    if($queryresult){
+    if($queryresult && $query_otherDir){
       $add_error = "User successfully added as a contact";
     }else{
       $add_error = "Issue adding contact to contact list";
@@ -73,6 +75,8 @@ if(isset($_POST['add'])){
   }
   if(empty($remove_error)){
     $insertQuery = "DELETE FROM contacts WHERE user_sender=".$cur_user_id." AND user_receiver=".$contact_user_id.";";
+    $queryresult = mysqli_query($conn, $insertQuery);
+    $insertQuery = "DELETE FROM contacts WHERE user_sender=".$contact_user_id." AND user_receiver=".$cur_user_id.";";
     $queryresult = mysqli_query($conn, $insertQuery);
     // echo "<div id='passwd_result'>".$insertQuery."</div>";
     if($queryresult){
@@ -143,6 +147,7 @@ if(isset($_POST['add'])){
       <h1>Contacts:</h1>
       <?php
         $html = '';
+        $addcontact = '';
         $textbox = '<div>
           <form method=POST action ="contacts.php">
 
@@ -167,7 +172,7 @@ if(isset($_POST['add'])){
          $userResult = queryResults($queryContact);
          $cur_contact_id = mysqli_fetch_row($userResult)[0];
          $msg_query = "SELECT content FROM messages WHERE receiving_user=$cur_contact_id
-         AND sending_user=$cur_user_id";
+         AND sending_user=$cur_user_id OR (sending_user=$cur_contact_id AND receiving_user=$cur_user_id)";
          $msg_result = mysqli_query($conn, $msg_query);
 
           if(mysqli_num_rows($msg_result)==0){
@@ -179,18 +184,18 @@ if(isset($_POST['add'])){
               $j += 1;
             }
           }
-          $html .= '<h2> Messages From: '.$cur_contact.' </h2> '.$msg.'';
-
+          $html .= '<h2> Messages with: '.$cur_contact.' </h2> '.$msg.'';
+          $addcontact .=  '<option value="'.$cur_contact.'">'.$cur_contact.'</option>';
           $i += 1;
 
       ?>
-
           <?php
         }
       }
         echo $textbox;
         echo $html;
       ?>
+
     </td>
 
    </body>
