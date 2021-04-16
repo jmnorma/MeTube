@@ -121,10 +121,6 @@ if(isset($_POST['add'])){
        		echo '<a class="upload" href="user.php">'.$username.'</a>';
        	?>
 
-       	<div class="upload">
-         	<input class="searchButton" name="Search" type="submit" value="Search">
-         	<input class="search" type="text" placeholder="Search..">
-       	</div>
        </form>
      </div>
      <br></br>
